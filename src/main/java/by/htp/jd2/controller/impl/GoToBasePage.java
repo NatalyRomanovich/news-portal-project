@@ -27,8 +27,7 @@ public class GoToBasePage implements Command{
 			latestNews = newsService.latestList(5);
 			request.setAttribute(AttributsKeys.USER, ConnectionStatus.NOT_ACTIVE);
 			request.setAttribute(AttributsKeys.NEWS, latestNews);
-			//request.setAttribute("news", null);
-
+			
 			request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
 		} catch (ServiceException e) {
 			
