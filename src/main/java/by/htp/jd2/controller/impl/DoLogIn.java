@@ -48,13 +48,10 @@ public class DoLogIn implements Command {
 			}
 			
 		} catch (ServiceException e) {
-			// logging e
-			// go-to error page
+			e.printStackTrace();
 
 		}
-
-		// response.getWriter().print("do logination");
-
+	
 	}
 
 }
