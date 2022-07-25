@@ -30,39 +30,20 @@ public class GoToNewsList implements Command {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//String login = request.getParameter(UsersParameters.JSP_LOGIN_PARAM);
-		//String password = request.getParameter(UsersParameters.JSP_PASSWORD_PARAM);
-					
+							
 		List<News> newsList;
 		
 		try {
-			//if (isAuthorizedUser(login, password)) {
+			
 			newsList = newsService.list();
 			request.setAttribute(AttributsKeys.NEWS, newsList);
 			request.setAttribute(AttributsKeys.PRESENTATION, NEWS_LIST);
-			//request.setAttribute("news", null);
-
-			request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
-			//}
-		} catch (ServiceException e) {
 			
+			request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
+			
+		} catch (ServiceException e) {			
 			e.printStackTrace();
-		}
-	  
-		
+		}	  	
 	}
-	
-	/*public boolean isAuthorizedUser (String login, String password) throws ServiceException {
-		String role = service.logIn(login, password);
-		System.out.println (role);
-		boolean result = false;
-		if (role.equals("admin") | role.equals(UsersRole.USER)) {
-			result = true;
-		}
-		
-		System.out.println (result);
-		return result;
-	} */
 
 }
