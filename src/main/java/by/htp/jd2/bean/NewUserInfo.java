@@ -7,7 +7,6 @@ public class NewUserInfo {
     private String userSurname;
     private String login;
     private String password;
-    //private Integer hashPassword;
     private String email;
     private String role;
     private Integer id;
