@@ -41,18 +41,13 @@ private final UserDataValidation userDataValidation = ValidationProvider.getInst
 		  boolean result = false;
 		  try {
 			   if(userDataValidation.checkRegData (user)) {
-				   result = userDAO.registration(user);				  
+			       result = userDAO.registration(user);				  
 			       return result;
 			   }
 		   }catch(DaoException e) {
 				throw new ServiceException(e);
 			   
-		   }
-		
-		return result;
-				   
-	   }
-	
-
-	
+		   }		
+		return result;			   
+	   }	
 }
