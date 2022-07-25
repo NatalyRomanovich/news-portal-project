@@ -34,8 +34,7 @@ public class GoToViewNews implements Command {
 			request.setAttribute(AttributsKeys.PRESENTATION, VIEW_LIST);
 
 			request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+		} catch (ServiceException e) {			
 			e.printStackTrace();
 		}
 		
