@@ -50,7 +50,7 @@ public class DoRegistration implements Command {
 			}		     
 						
 		}catch (ServiceException e) {
-			//request.getRequestDispatcher().forward(request, response);
+			e.printStackTrace();
 	    }
 	    	
     }
