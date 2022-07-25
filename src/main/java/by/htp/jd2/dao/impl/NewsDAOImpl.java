@@ -42,20 +42,17 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 
 	@Override
-	public int addNews(News news) throws NewsDAOException {
-		// TODO Auto-generated method stub
+	public int addNews(News news) throws NewsDAOException {	
 		return 0;
 	}
 
 	@Override
-	public void updateNews(News news) throws NewsDAOException {
-		// TODO Auto-generated method stub
+	public void updateNews(News news) throws NewsDAOException {		
 
 	}
 
 	@Override
 	public void deleteNewses(String[] idNewses) throws NewsDAOException {
-		// TODO Auto-generated method stub
 
 	}
 
