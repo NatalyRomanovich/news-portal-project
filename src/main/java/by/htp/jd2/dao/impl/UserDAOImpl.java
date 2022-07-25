@@ -43,14 +43,12 @@ public List <String> errorsMessagesDAO = new ArrayList<>();
 		if (isDataBaseAvailable (login, password)) {
 			for (NewUserInfo user : dataBase.getDataBase()) {
 		
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-            	result = true;	            	
-                 }
+                              if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+            	                   result = true;	            	
+                             }
 			}
-		}
-			  
-		return result;
-		
+		}			  
+		return result;		
 	}
 
 	
@@ -61,29 +59,20 @@ public List <String> errorsMessagesDAO = new ArrayList<>();
 				if (user.getLogin().equals(login)) {
 				role = user.getRole();
 				}
-			}
-			
+			}			
 		}
-		return role;
-	}
+		return role;	}
 
 	@Override
 	public boolean registration(NewUserInfo user) throws DaoException  {
-		boolean result = false;
-		//try {
-			if (!isUserAlreadyRegistered (user)) {
-				if (isLoginNotUsed (user) & isEmailNotlUsed (user)) {
-			      addDataBase (user);
-			      
-			      result = true;
-				}
-						
-		}
-						
-		return result;
-        /*}catch(SQLException e) {
-			throw new DaoException(e);
-			}*/
+		boolean result = false;		
+		if (!isUserAlreadyRegistered (user)) {
+			if (isLoginNotUsed (user) & isEmailNotlUsed (user)) {
+			    addDataBase (user);			      
+			    result = true;
+			}						
+		}						
+		return result;        
 	}
 	
 	
@@ -102,10 +91,10 @@ public List <String> errorsMessagesDAO = new ArrayList<>();
 	private boolean isUserAlreadyRegistered (NewUserInfo user) {
 		boolean result = true;
 		for (NewUserInfo registredUsers : dataBase.getDataBase()) {
-		if (!user.equals(registredUsers)) {
-			result = false;			
+		    if (!user.equals(registredUsers)) {
+			   result = false;			
 		    }
-		else {
+		    else {
 			getErrorsListMessage(ErrorsMessages.USER_ALREADY_REGISTRED);	
 			//throw new SQLException("User already registered");				
 			}
@@ -118,31 +107,31 @@ public List <String> errorsMessagesDAO = new ArrayList<>();
 	public boolean isLoginNotUsed (NewUserInfo user) {
 		boolean result = true;
 		for (NewUserInfo userRegistred : dataBase.getDataBase()) {
-            if (user.getLogin().equals(userRegistred.getLogin()) ) {
-            	result = false;
-            	break;
+                     if (user.getLogin().equals(userRegistred.getLogin()) ) {
+            	          result = false;
+            	          break;
             }
-            else {
-            	getErrorsListMessage(ErrorsMessages.LOGIN_ALREADY_IN_USE);
+                     else {
+            	          getErrorsListMessage(ErrorsMessages.LOGIN_ALREADY_IN_USE);
    			  // throw new ServiceException("Login already in use"); 
    		   }
         }
 		
-		return result;
+	      return result;
 	}
+	
 	public boolean isEmailNotlUsed (NewUserInfo user) {
 		boolean result = true;
 		for (NewUserInfo userRegistred : dataBase.getDataBase()) {
-            if (user.getEmail().equals(userRegistred.getEmail()) ) {
-            	result = false;
-            	break;
-            }
-            else {
-            	getErrorsListMessage(ErrorsMessages.EMAIL_ALREADY_IN_USE);
+                      if (user.getEmail().equals(userRegistred.getEmail()) ) {
+            	           result = false;
+            	           break;
+                      }
+                      else {
+            	           getErrorsListMessage(ErrorsMessages.EMAIL_ALREADY_IN_USE);
   			   //throw new ServiceException("Email already in use"); 
-  		   }
-        }
-		
+  		     }
+                }		
 		return result;
 	}
 	
