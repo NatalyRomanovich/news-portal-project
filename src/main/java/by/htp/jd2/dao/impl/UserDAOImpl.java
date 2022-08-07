@@ -29,9 +29,8 @@ public class UserDAOImpl implements UserDAO{
 		
 		String sql = "SELECT * FROM users WHERE login=? AND password=?";
 			
-		try {
-			Connection connection = ConnectionPool.getInstance().takeConnection();		
-			PreparedStatement ps = connection.prepareStatement(sql);
+		try (Connection connection = ConnectionPool.getInstance().takeConnection();		
+			PreparedStatement ps = connection.prepareStatement(sql)) {			
 			ps.setString(1, login);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
@@ -82,12 +81,10 @@ public class UserDAOImpl implements UserDAO{
 				
 		String sql = "INSERT INTO users(login,password,name,surname,email,id_roles) values (?,?,?,?,?,?)";
 						
-		try {					
-			Connection connection = ConnectionPool.getInstance().takeConnection();
+		try (Connection connection = ConnectionPool.getInstance().takeConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)){					
 			
 			if (!isUserAlreadyRegistered(connection,user) && isLoginNotUsed (connection,user) && isEmailNotlUsed(connection,user)) {
-				
-			    PreparedStatement ps = connection.prepareStatement(sql);							
 			    ps.setString(1, user.getLogin());			    
 			    ps.setString(2, user.getPassword());
 			    ps.setString(3, user.getUsername());
