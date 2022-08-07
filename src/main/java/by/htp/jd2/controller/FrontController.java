@@ -24,10 +24,10 @@ public class FrontController extends HttpServlet {
     public void init () throws ServletException {
 		super.init();
 		try {							
-		        connectionPool = ConnectionPool.getInstance();
+		     connectionPool = ConnectionPool.getInstance();
 						
 		} catch (ConnectionPoolException e) {
-			// logger.log(Level.ERROR, "Connection not established ");
+		     // logger.log(Level.ERROR, "Connection not established ");
 		}   
 	} 
     
