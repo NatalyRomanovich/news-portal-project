@@ -41,9 +41,8 @@ public final class ConnectionPool {
 	private String password;
 	private int poolsize;	
 	
-	private static ConnectionPool connectionPool;		
-	//private static volatile boolean stopQueueProcessing = false;
-
+	private static ConnectionPool connectionPool;	
+	
 	private ConnectionPool() throws ConnectionPoolException {
 		
 		DBResourseManager dbResourseManager = DBResourseManager.getInstance();
@@ -62,7 +61,7 @@ public final class ConnectionPool {
 	}
 	
 	public static ConnectionPool getInstance() throws ConnectionPoolException {
-    	if(connectionPool == null) {
+    	if (connectionPool == null) {
     		connectionPool = new ConnectionPool(); 		    		
     	}
     	
@@ -92,23 +91,15 @@ public final class ConnectionPool {
 		}
 	}
 		 			
-	 public void clearConnectionQueue() {
-		 //stopQueueProcessing = true;
+	 public void clearConnectionQueue() {	 
 		
-		BlockingQueue  <Connection> queueToRemoveConnections= new ArrayBlockingQueue (QUEUES_NUMBER);
+		BlockingQueue  <Connection> queueToRemoveConnections = new ArrayBlockingQueue (QUEUES_NUMBER);
 		moveElementsFromQueue (connectionQueue, queueToRemoveConnections);
 		moveElementsFromQueue (givenAwayConQueue, queueToRemoveConnections);
 		
 		try { 
-			//if (connectionQueue.peek() != null) {
-			//if (connectionQueue.remainingCapacity() == 0) {
 			closeConnectionsQueue (queueToRemoveConnections);
-			//closeConnectionsQueue (givenAwayConQueue);
-			//closeConnectionsQueue (connectionQueue);
-			//}
-			//else {
-				
-			//}
+			
 		} catch (SQLException e) {
 			//Logger.log (Level.ERROR, "Error closing the connection", e);
 		}
@@ -116,8 +107,8 @@ public final class ConnectionPool {
 	
 	 public void moveElementsFromQueue (BlockingQueue <Connection> queue, BlockingQueue <Connection> queueToRemoveConnections) {
 
-			 while (queue.peek() != null) {
-				 queueToRemoveConnections.add(queue.poll());				 					 
+		while (queue.peek() != null) {
+			queueToRemoveConnections.add(queue.poll());				 					 
 		 }		
 	 }
 	 
@@ -125,19 +116,13 @@ public final class ConnectionPool {
 		Connection connection = null;		
 		
 		try {
-			//if (!stopQueueProcessing){
-				connection = connectionQueue.take();
-				givenAwayConQueue.add(connection);
-			//}
-			/*else {
-				throw new NullPointerException ("Database connection not possible");
-			};*/
+			connection = connectionQueue.take();
+			givenAwayConQueue.add(connection);
 			
 		 }catch (InterruptedException e) {
 			/*String message = "Error connecting to the data source";
 			 getErrorsListMessage (message);		*/
-		 }
-		
+		 }		
 		return connection;
 	}
 	
