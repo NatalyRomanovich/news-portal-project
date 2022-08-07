@@ -28,8 +28,7 @@ public class FrontController extends HttpServlet {
 						
 		} catch (ConnectionPoolException e) {
 			// logger.log(Level.ERROR, "Connection not established ");
-		}
-   
+		}   
 	} 
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +36,7 @@ public class FrontController extends HttpServlet {
 		Command command = provider.getCommand(commandName);
 		command.execute(request, response);
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
