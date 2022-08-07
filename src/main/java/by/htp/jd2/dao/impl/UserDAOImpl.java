@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import by.htp.jd2.bean.ClientsRole;
 import by.htp.jd2.bean.ErrorsMessage;
 import by.htp.jd2.bean.NewUserInfo;
@@ -18,12 +16,10 @@ import by.htp.jd2.dao.UserDAO;
 import by.htp.jd2.dao.connectionpool.ConnectionPool;
 import by.htp.jd2.dao.connectionpool.ConnectionPoolException;
 
-public class UserDAOImpl implements UserDAO{
-	
+public class UserDAOImpl implements UserDAO{	
 	
 	public static List <String> errorsMessagesDAO = new ArrayList<>();
 	private static final Integer ID_UNKNOWN_ROLE = 3;
-	
 	private int idRole;	
 	private String role;
     		
@@ -52,18 +48,15 @@ public class UserDAOImpl implements UserDAO{
 		
 	    } catch (ConnectionPoolException e) {
 		throw new DaoException(e);
-	    }
-			  
-		return result;
-		
+	    }			  
+		return result;		
 	}
 	
 	public String getRole(String login, String password) throws DaoException {
 				
 		if (logination(login, password)) {			
 			return role;
-		}
-		
+		}		
 		return UsersRole.GUEST;
 	}
 
@@ -80,10 +73,8 @@ public class UserDAOImpl implements UserDAO{
 			
 		} catch (SQLException e) {
 			throw new DaoException(e);
-		}
-		
-	}
-	
+		}		
+	}	
 	
 	@Override
 	public boolean registration(NewUserInfo user) throws DaoException  {
@@ -96,7 +87,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			if (!isUserAlreadyRegistered(connection,user) && isLoginNotUsed (connection,user) && isEmailNotlUsed(connection,user)) {
 				
-				PreparedStatement ps = connection.prepareStatement(sql);							
+			    PreparedStatement ps = connection.prepareStatement(sql);							
 			    ps.setString(1, user.getLogin());			    
 			    ps.setString(2, user.getPassword());
 			    ps.setString(3, user.getUsername());
@@ -114,10 +105,8 @@ public class UserDAOImpl implements UserDAO{
 			return false;
 		} catch (ConnectionPoolException e) {
 			throw new DaoException(e);
-		    }
-				
-		return result;
-      
+		}				
+		return result;     
 	}
 	
 	private void getIdRoleByTitle (Connection connection) throws DaoException{
@@ -138,18 +127,16 @@ public class UserDAOImpl implements UserDAO{
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
-		}	
-			
+		}			
 	}		
 		
 	public List <String> getErrorsListMessage (String message){
 		errorsMessagesDAO.add(message);
 		
 		return errorsMessagesDAO;
-	}
-		
+	}	
 	
-	private boolean isUserAlreadyRegistered (Connection connection,NewUserInfo user) throws DaoException {
+	private boolean isUserAlreadyRegistered (Connection connection, NewUserInfo user) throws DaoException {
 		boolean result = false;
 		String sql = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
 		
@@ -169,11 +156,8 @@ public class UserDAOImpl implements UserDAO{
 
 		} catch (SQLException e) {
 			throw new DaoException(e);
-		}
-		
-		return result;
-	
-				
+		}		
+		return result;				
 	}
 	
 	public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws DaoException {
@@ -181,8 +165,7 @@ public class UserDAOImpl implements UserDAO{
 		
 		String sql = "SELECT * FROM users WHERE login=?";
 		
-		try {
-			
+		try {			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, user.getLogin());
 			ResultSet rs = ps.executeQuery();
@@ -192,10 +175,10 @@ public class UserDAOImpl implements UserDAO{
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
-		}
-		
+		}		
 		return result;
 	}
+	
 	public boolean isEmailNotlUsed (Connection connection,NewUserInfo user) throws DaoException {
 		boolean result = true;
 		String sql = "SELECT * FROM users WHERE email=?";
@@ -209,9 +192,7 @@ public class UserDAOImpl implements UserDAO{
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e);
-		}
-		
+		}		
 		return result;
-	}
-	
+	}	
 }	
