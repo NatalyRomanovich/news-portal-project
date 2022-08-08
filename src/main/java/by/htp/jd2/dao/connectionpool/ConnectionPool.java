@@ -89,8 +89,8 @@ public final class ConnectionPool {
 	}
 		 			
 	public void clearConnectionQueue() {
-		
-		BlockingQueue  <Connection> queueToRemoveConnections= new ArrayBlockingQueue (QUEUES_NUMBER);
+		int queueSize = poolsize*QUEUES_NUMBER;
+		BlockingQueue  <Connection> queueToRemoveConnections= new ArrayBlockingQueue (queueSize);
 		moveElementsFromQueue (connectionQueue, queueToRemoveConnections);
 		moveElementsFromQueue (givenAwayConQueue, queueToRemoveConnections);
 		
