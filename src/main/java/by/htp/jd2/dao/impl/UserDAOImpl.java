@@ -38,8 +38,7 @@ public class UserDAOImpl implements UserDAO{
 			if (rs.next()) {
 				idRole = rs.getInt (DatabaseTableColumn.TABLE_USERS_COLUMN_ID_ROLES);
 				roleSearch (connection,login, password);				
-				result = true;	
-				ConnectionPool.getInstance().closeConnection (connection,ps,rs);
+				result = true;					
 			}
 
 		} catch (SQLException e) {
@@ -66,8 +65,7 @@ public class UserDAOImpl implements UserDAO{
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if (rs.next()) {
-				role = rs.getString(DatabaseTableColumn.TABLE_ROLES_COLUMN_TITLE);
-				//System.out.println( "role= " +role );
+				role = rs.getString(DatabaseTableColumn.TABLE_ROLES_COLUMN_TITLE);				
 			}
 			
 		} catch (SQLException e) {
@@ -94,8 +92,7 @@ public class UserDAOImpl implements UserDAO{
 			    ps.setInt(6, idRole);
 			    
 			    ps.executeUpdate();
-			    result = true;
-			    ConnectionPool.getInstance().closeConnection (connection,ps);
+			    result = true;			    
 			}		
 			
 		} catch (SQLException e) {
