@@ -18,7 +18,7 @@ import by.htp.jd2.dao.connectionpool.ConnectionPoolException;
 
 public class UserDAOImpl implements UserDAO{	
 	
-	private static final Integer ID_UNKNOWN_ROLE = 3;
+	private static final Integer ID_UNKNOWN_ROLE = 3;    
 	
 	private static final String lOGIN_AND_PASSWORD_CHECK = "SELECT * FROM users WHERE login=? AND password=?";
 	@Override
@@ -57,8 +57,7 @@ public class UserDAOImpl implements UserDAO{
 					role = rs.getString(DatabaseTableColumn.TABLE_ROLES_COLUMN_TITLE);					
 				return role;
 				} 
-				
-						
+										
 		} catch (SQLException e) {
 			throw new DaoException(e);
 			
@@ -76,9 +75,11 @@ public class UserDAOImpl implements UserDAO{
 		try (Connection connection = ConnectionPool.getInstance().takeConnection();
 				PreparedStatement ps = connection.prepareStatement(ADDING_USER)){					
 			
-			if (!(isUserNotAlreadyRegistered(connection,user) && isLoginNotUsed (connection,user) && isEmailNotlUsed(connection,user))) {
+			RegisrtationCheckInDB regisrtationCheckInDB = new RegisrtationCheckInDB (connection, user);
+			
+			if (!regisrtationCheckInDB.isCorrect()) {
 				return false;			
-			}										
+			}									
 			    ps.setString(1, user.getLogin());			    
 			    ps.setString(2, user.getPassword());
 			    ps.setString(3, user.getUsername());
@@ -111,48 +112,5 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return idRole;
 			
-	}	
-	
-	private static final String USER_VERIFICATION = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
-	private boolean isUserNotAlreadyRegistered (Connection connection, NewUserInfo user) throws SQLException {
-				
-		PreparedStatement ps = connection.prepareStatement(USER_VERIFICATION);
-		ps.setString(1, user.getLogin());
-		ps.setString(2, user.getPassword());
-		ps.setString(3, user.getUsername());
-		ps.setString(4, user.getUserSurname());
-		ps.setString(5, user.getEmail());
-			
-		ResultSet rs = ps.executeQuery();
-			
-		if (rs.next()) {				
-			return false;
-		}
-		return true;
-	}
-	
-	private static final String LOGIN_VERIFICATION = "SELECT * FROM users WHERE login=?";
-	public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws SQLException {
-		
-		PreparedStatement ps = connection.prepareStatement(LOGIN_VERIFICATION);
-		ps.setString(1, user.getLogin());
-		ResultSet rs = ps.executeQuery();
-						
-		if (rs.next()) {
-			return false;
-		}		
-		return true;
-	}
-	
-	private static final String EMAIL_VERIFICATION = "SELECT * FROM users WHERE email=?";
-	public boolean isEmailNotlUsed (Connection connection, NewUserInfo user) throws SQLException {
-		
-		PreparedStatement ps = connection.prepareStatement(EMAIL_VERIFICATION);
-		ps.setString(1, user.getEmail());
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			return false;
-		}		
-		return true;
-	}
+	}		
 }
