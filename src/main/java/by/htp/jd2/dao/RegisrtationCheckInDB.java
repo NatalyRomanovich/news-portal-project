@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import by.htp.jd2.bean.NewUserInfo;
 import by.htp.jd2.dao.connectionpool.ConnectionPool;
 
@@ -26,7 +25,7 @@ public class RegisrtationCheckInDB {
         }
     }
 	
-	public Connection getConnection() {
+    public Connection getConnection() {
         return connection;
     }
 
@@ -50,26 +49,26 @@ public class RegisrtationCheckInDB {
         this.correct = correct;
     }
 	    
-	private static final String USER_VERIFICATION = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
-	private boolean isUserNotAlreadyRegistered (Connection connection, NewUserInfo user) throws SQLException {
+    private static final String USER_VERIFICATION = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
+    private boolean isUserNotAlreadyRegistered (Connection connection, NewUserInfo user) throws SQLException {
 				
-		PreparedStatement ps = connection.prepareStatement(USER_VERIFICATION);
-		ps.setString(1, user.getLogin());
-		ps.setString(2, user.getPassword());
-		ps.setString(3, user.getUsername());
-		ps.setString(4, user.getUserSurname());
-		ps.setString(5, user.getEmail());
+	PreparedStatement ps = connection.prepareStatement(USER_VERIFICATION);
+	ps.setString(1, user.getLogin());
+	ps.setString(2, user.getPassword());
+	ps.setString(3, user.getUsername());
+	ps.setString(4, user.getUserSurname());
+	ps.setString(5, user.getEmail());
 			
-		ResultSet rs = ps.executeQuery();
+	ResultSet rs = ps.executeQuery();
 			
-		if (rs.next()) {				
-			return false;
-		}
+	if (rs.next()) {				
+		return false;
+	}
 		return true;
 	}
 	
-	private static final String LOGIN_VERIFICATION = "SELECT * FROM users WHERE login=?";
-	public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws SQLException {
+     private static final String LOGIN_VERIFICATION = "SELECT * FROM users WHERE login=?";
+     public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws SQLException {
 		
 		PreparedStatement ps = connection.prepareStatement(LOGIN_VERIFICATION);
 		ps.setString(1, user.getLogin());
@@ -81,8 +80,8 @@ public class RegisrtationCheckInDB {
 		return true;
 	}
 	
-	private static final String EMAIL_VERIFICATION = "SELECT * FROM users WHERE email=?";
-	public boolean isEmailNotlUsed (Connection connection, NewUserInfo user) throws SQLException {
+     private static final String EMAIL_VERIFICATION = "SELECT * FROM users WHERE email=?";
+     public boolean isEmailNotlUsed (Connection connection, NewUserInfo user) throws SQLException {
 		
 		PreparedStatement ps = connection.prepareStatement(EMAIL_VERIFICATION);
 		ps.setString(1, user.getEmail());
@@ -91,5 +90,5 @@ public class RegisrtationCheckInDB {
 			return false;
 		}		
 		return true;
-	}
+     }
 }	
