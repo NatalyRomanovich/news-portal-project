@@ -18,175 +18,141 @@ import by.htp.jd2.dao.connectionpool.ConnectionPoolException;
 
 public class UserDAOImpl implements UserDAO{	
 	
-	public static List <String> errorsMessagesDAO = new ArrayList<>();
 	private static final Integer ID_UNKNOWN_ROLE = 3;
-	private int idRole;	
-	private String role;
-    		
+	
+	private static final String lOGIN_AND_PASSWORD_CHECK = "SELECT * FROM users WHERE login=? AND password=?";
 	@Override
 	public boolean logination(String login, String password) throws DaoException {
-		boolean result = false;
 		
-		String sql = "SELECT * FROM users WHERE login=? AND password=?";
-			
 		try (Connection connection = ConnectionPool.getInstance().takeConnection();		
-			PreparedStatement ps = connection.prepareStatement(sql)) {			
+			PreparedStatement ps = connection.prepareStatement(lOGIN_AND_PASSWORD_CHECK)) {			
 			ps.setString(1, login);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			
-			if (rs.next()) {
-				idRole = rs.getInt (DatabaseTableColumn.TABLE_USERS_COLUMN_ID_ROLES);
-				roleSearch (connection,login, password);				
-				result = true;					
-			}
-
+			return (rs.next()); 
+					
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		
 	    } catch (ConnectionPoolException e) {
 		throw new DaoException(e);
-	    }			  
-		return result;		
+	    } 
 	}
 	
-	public String getRole(String login, String password) throws DaoException {
-				
-		if (logination(login, password)) {			
-			return role;
-		}		
-		return UsersRole.GUEST;
-	}
-
-	private void roleSearch (Connection connection, String login, String password) throws DaoException {
-		
-		String sql = "SELECT * FROM roles WHERE id_roles=" + idRole;
-		try {
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				role = rs.getString(DatabaseTableColumn.TABLE_ROLES_COLUMN_TITLE);				
-			}
-			
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		}		
-	}	
+	private static final String ROLE_SEARCH = "SELECT * FROM users JOIN roles ON users.id_roles = roles.id_roles WHERE login=? AND password=?";
 	
 	@Override
-	public boolean registration(NewUserInfo user) throws DaoException  {
-		boolean result = false;
+	public String getRole(String login, String password) throws DaoException {		
+		
+		String role;
+		
+		try (Connection connection = ConnectionPool.getInstance().takeConnection();		
+				PreparedStatement ps = connection.prepareStatement(ROLE_SEARCH)) {			
+				ps.setString(1, login);
+				ps.setString(2, password);
+				ResultSet rs = ps.executeQuery();
 				
-		String sql = "INSERT INTO users(login,password,name,surname,email,id_roles) values (?,?,?,?,?,?)";
+				if (rs.next()) {
+					role = rs.getString(DatabaseTableColumn.TABLE_ROLES_COLUMN_TITLE);					
+				return role;
+				} 
+				
 						
-		try (Connection connection = ConnectionPool.getInstance().takeConnection();
-				PreparedStatement ps = connection.prepareStatement(sql)){					
+		} catch (SQLException e) {
+			throw new DaoException(e);
 			
-			if (!isUserAlreadyRegistered(connection,user) && isLoginNotUsed (connection,user) && isEmailNotlUsed(connection,user)) {
+		} catch (ConnectionPoolException e) {
+			throw new DaoException(e);
+		} 
+		
+		return UsersRole.GUEST;
+	}
+		
+	private static final String ADDING_USER = "INSERT INTO users(login,password,name,surname,email,id_roles) values (?,?,?,?,?,?)";
+	@Override
+	public boolean registration(NewUserInfo user) throws DaoException  {
+		
+		try (Connection connection = ConnectionPool.getInstance().takeConnection();
+				PreparedStatement ps = connection.prepareStatement(ADDING_USER)){					
+			
+			if (!(isUserNotAlreadyRegistered(connection,user) && isLoginNotUsed (connection,user) && isEmailNotlUsed(connection,user))) {
+				return false;			
+			}										
 			    ps.setString(1, user.getLogin());			    
 			    ps.setString(2, user.getPassword());
 			    ps.setString(3, user.getUsername());
 			    ps.setString(4, user.getUserSurname());
 			    ps.setString(5, user.getEmail());
-			    getIdRoleByTitle (connection);
+			    
+			    int idRole = getIdRoleByTitle (connection, UsersRole.USER);
 			    ps.setInt(6, idRole);
 			    
 			    ps.executeUpdate();
-			    result = true;			    
-			}		
-			
+			    return true;
+			  	    			
 		} catch (SQLException e) {
-			return false;
+			throw new DaoException(e);
+			
 		} catch (ConnectionPoolException e) {
 			throw new DaoException(e);
-		}				
-		return result;     
+		}
 	}
 	
-	private void getIdRoleByTitle (Connection connection) throws DaoException{
-		
-		String sql = "SELECT * FROM roles WHERE title=?";
-				
-		try {			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, UsersRole.USER);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				idRole = rs.getInt(DatabaseTableColumn.TABLE_ROLES_COLUMN_ID_ROLES);
-				
-			}
-			else {
-				
-				idRole = ID_UNKNOWN_ROLE;
-			}
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		}			
-	}		
-		
-	public List <String> getErrorsListMessage (String message){
-		errorsMessagesDAO.add(message);
-		
-		return errorsMessagesDAO;
+	private static final String SEARCH_ROLE_ID = "SELECT * FROM roles WHERE title=?";	
+	private int getIdRoleByTitle (Connection connection, String role) throws SQLException{
+		int idRole = ID_UNKNOWN_ROLE;
+			
+		PreparedStatement ps = connection.prepareStatement(SEARCH_ROLE_ID);
+		ps.setString(1, role);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			idRole = rs.getInt(DatabaseTableColumn.TABLE_ROLES_COLUMN_ID_ROLES);			
+		}
+		return idRole;
+			
 	}	
 	
-	private boolean isUserAlreadyRegistered (Connection connection, NewUserInfo user) throws DaoException {
-		boolean result = false;
-		String sql = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
-		
-		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, user.getLogin());
-			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getUsername());
-			ps.setString(4, user.getUserSurname());
-			ps.setString(5, user.getEmail());
+	private static final String USER_VERIFICATION = "SELECT * FROM users WHERE login=? AND password=? AND name=? AND surname=? AND email=?";
+	private boolean isUserNotAlreadyRegistered (Connection connection, NewUserInfo user) throws SQLException {
+				
+		PreparedStatement ps = connection.prepareStatement(USER_VERIFICATION);
+		ps.setString(1, user.getLogin());
+		ps.setString(2, user.getPassword());
+		ps.setString(3, user.getUsername());
+		ps.setString(4, user.getUserSurname());
+		ps.setString(5, user.getEmail());
 			
-			ResultSet rs = ps.executeQuery();
+		ResultSet rs = ps.executeQuery();
 			
-			if (rs.next()) {				
-				result = true;
-			}
-
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		}		
-		return result;				
+		if (rs.next()) {				
+			return false;
+		}
+		return true;
 	}
 	
-	public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws DaoException {
-		boolean result = true;
+	private static final String LOGIN_VERIFICATION = "SELECT * FROM users WHERE login=?";
+	public boolean isLoginNotUsed (Connection connection, NewUserInfo user) throws SQLException {
 		
-		String sql = "SELECT * FROM users WHERE login=?";
-		
-		try {			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, user.getLogin());
-			ResultSet rs = ps.executeQuery();
+		PreparedStatement ps = connection.prepareStatement(LOGIN_VERIFICATION);
+		ps.setString(1, user.getLogin());
+		ResultSet rs = ps.executeQuery();
 						
-			if (rs.next()) {
-				result = false;
-			}
-		} catch (SQLException e) {
-			throw new DaoException(e);
+		if (rs.next()) {
+			return false;
 		}		
-		return result;
+		return true;
 	}
 	
-	public boolean isEmailNotlUsed (Connection connection,NewUserInfo user) throws DaoException {
-		boolean result = true;
-		String sql = "SELECT * FROM users WHERE email=?";
+	private static final String EMAIL_VERIFICATION = "SELECT * FROM users WHERE email=?";
+	public boolean isEmailNotlUsed (Connection connection, NewUserInfo user) throws SQLException {
 		
-		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, user.getEmail());
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				result = true;
-			}
-		} catch (SQLException e) {
-			throw new DaoException(e);
+		PreparedStatement ps = connection.prepareStatement(EMAIL_VERIFICATION);
+		ps.setString(1, user.getEmail());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			return false;
 		}		
-		return result;
-	}	
-}	
+		return true;
+	}
+}
