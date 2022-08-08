@@ -129,12 +129,6 @@ public final class ConnectionPool {
 	public void closeConnection (Connection con, Statement st, ResultSet rs) throws ConnectionPoolException {
 		
 		try {
-			con.close();			
-		}catch (SQLException e) {
-			//Logger.log (Level.ERROR, "Connection is not return to the pool");			
-		}
-		
-		try {
 			rs.close();			
 		}catch (SQLException e) {
 			//Logger.log (Level.ERROR, "ResultSet is not closed");			
@@ -145,23 +139,26 @@ public final class ConnectionPool {
 		}catch (SQLException e) {
 			//Logger.log (Level.ERROR, "Statement is not closed");			
 		}
-	
-	}
-	
-    public void closeConnection (Connection con, Statement st) throws ConnectionPoolException {
 		
 		try {
 			con.close();			
 		}catch (SQLException e) {
 			//Logger.log (Level.ERROR, "Connection is not return to the pool");			
-		}			
+		}
+	}
+	
+    public void closeConnection (Connection con, Statement st) throws ConnectionPoolException {
 		
-		try {
+	    try {
 			st.close();			
 		}catch (SQLException e) {
 			//Logger.log (Level.ERROR, "Statement is not closed");			
 		}
-	
+		try {
+			con.close();			
+		}catch (SQLException e) {
+			//Logger.log (Level.ERROR, "Connection is not return to the pool");			
+		}
 	}
     
     public void closeConnectionsQueue (BlockingQueue <Connection> queue) throws SQLException {
