@@ -7,7 +7,6 @@ public class NewUserInfo {
     private String userSurname;
     private String login;
     private String password;
-    //private Integer hashPassword;
     private String email;
     private String role;
     private Integer id;
@@ -61,14 +60,6 @@ public class NewUserInfo {
     public void getPassword(String password) {
         this.password = password;
     }
-
-    /*public Integer getHashPassword() {
-        return hashPassword;
-    }
-
-    public void setHashPassword(Integer hashPassword) {
-        this.hashPassword = hashPassword;
-    } */
     
     public String getLogin() {
         return login;
