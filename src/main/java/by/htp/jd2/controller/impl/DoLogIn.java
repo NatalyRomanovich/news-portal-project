@@ -42,8 +42,10 @@ public class DoLogIn implements Command {
 				getSession.setAttribute(AttributsKey.REG_USER, ConnectionStatus.REGISTRED);
 				response.sendRedirect("controller?command=go_to_news_list");
 			} else {
-				getSession.setAttribute(AttributsKey.USER, ConnectionStatus.NOT_ACTIVE);
+				getSession.setAttribute(AttributsKey.USER, ConnectionStatus.NOT_ACTIVE);							
+				request.setAttribute(AttributsKey.NEWS, latestNews);
 				request.setAttribute(AttributsKey.ERRORS_LOGINATION_NAME, ERROR_LOGINATION_MESSAGE);
+				System.out.println("news= " + latestNews);				
 				request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
 			}
 			
