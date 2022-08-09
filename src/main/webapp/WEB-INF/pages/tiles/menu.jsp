@@ -19,15 +19,12 @@
 				<c:if test="${sessionScope.role eq 'admin'}">
 				<li style="padding-left: 15px;">
 				
-				<a href="">add news </a>
-                
-                <br />
-					
+				<a href="">add news </a> <br />					
 				</li></c:if>
 			</ul>
 		</div>
 		<div class="clear"></div>
-	</div>
+	        </div>
 	<!--  grey free space at the bottom of menu -->
 	<div style="height: 25px;"></div>
 </div>
