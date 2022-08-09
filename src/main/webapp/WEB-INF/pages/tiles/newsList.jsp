@@ -41,9 +41,6 @@
    					    
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 
@@ -59,7 +56,7 @@
 
 	<div class="no-news">
 		<c:if test="${requestScope.news eq null}">
-        No news.
-	</c:if>
+                       No news.
+	        </c:if>
 	</div>
 </form>
