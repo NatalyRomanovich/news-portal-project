@@ -6,7 +6,7 @@
 </div>
 
 <form action="command.do?method=delete" method="post">
-	<c:if test="${not(requestScope.show_news eq 'not_show')}">
+    <c:if test="${not(requestScope.show_news eq 'not_show')}">
 	   <c:forEach var="news" items="${requestScope.news}">
 		   <div class="single-news-wrapper">
 			   <div class="single-news-header-wrapper">
@@ -27,11 +27,10 @@
 	   </c:forEach>
 	   
 	   <div class="no-news">
-		<c:if test="${requestScope.news eq null}">
-        No news.
-	</c:if>
-	</div>
-    </c:if>  
-     	
+		   <c:if test="${requestScope.news eq null}">
+                          No news.
+	          </c:if>
+	   </div>
+    </c:if>      	
 
 </form>
