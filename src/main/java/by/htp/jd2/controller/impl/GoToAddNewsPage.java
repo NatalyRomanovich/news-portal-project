@@ -25,19 +25,13 @@ public class GoToAddNewsPage implements Command {
 	public static final String ADD_NEWS = "addNews";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//String login = request.getParameter(UsersParameter.JSP_LOGIN_PARAM);
-		//String password = request.getParameter(UsersParameter.JSP_PASSWORD_PARAM);
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		HttpSession getSession = request.getSession(true);				
 		
-		HttpSession getSession = request.getSession(true);		
-		
-		System.out.println("go to add news page");
 		getSession.setAttribute(AttributsKey.USER, ConnectionStatus.ACTIVE);
 		//getSession.setAttribute(AttributsKey.ROLE, UsersRole.ADMIN.getTitle());
 		//getSession.removeAttribute(AttributsKey.REG_USER);
 		getSession.setAttribute(AttributsKey.NEWS_COMMANDS_NAME, ADD_NEWS);
-		request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
-	
+		request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);	
 	}
 }
