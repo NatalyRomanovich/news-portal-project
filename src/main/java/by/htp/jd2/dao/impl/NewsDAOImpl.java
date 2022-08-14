@@ -35,9 +35,7 @@ public class NewsDAOImpl implements NewsDAO {
 			while (rs.next()) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Timestamp timestamp = rs.getTimestamp(5);
-				String data = new SimpleDateFormat("yyyy-MM-dd").format(timestamp);
-				// Calendar calendar = new GregorianCalendar();
-				// calendar.setTime(timestamp);
+				String data = new SimpleDateFormat("yyyy-MM-dd").format(timestamp);				
 				News newsInLatestsList = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						data);
 				result.add(newsInLatestsList);
@@ -66,9 +64,7 @@ public class NewsDAOImpl implements NewsDAO {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Timestamp timestamp = rs.getTimestamp(5);
 				String data = new SimpleDateFormat("yyyy-MM-dd").format(timestamp);
-				// Calendar calendar = new GregorianCalendar();
-				// calendar.setTime(timestamp);
-
+				
 				News news = new News(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), data);
 
 				result.add(news);
@@ -179,7 +175,7 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 	
 	private static final String DELETE_NEWS = "DELETE WHERE id = ?";
-	public boolean deleteAllNews (Connection connection,String[] idNewses) throws SQLException {
+	public boolean deleteAllNews (Connection connection, String[] idNewses) throws SQLException {
 		
 		try {
 			connection.setAutoCommit(false);
@@ -207,5 +203,4 @@ public class NewsDAOImpl implements NewsDAO {
 	    String date = dateTimeFormatter.format(zonedDateTime);	    
 	    return date;
 	}
-
 }
