@@ -53,12 +53,6 @@ public class NewsDAOImpl implements NewsDAO {
 		}
 	}
 
-	public List<News> addNewsToLatestsList(int count) throws NewsDAOException {
-
-		return null;
-
-	}
-
 	private static final String SHOW_NEWS_ON_1ST_PAGE = "SELECT * FROM news ORDER BY data DESC";
 
 	@Override
