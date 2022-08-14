@@ -26,9 +26,7 @@ public class AddNews implements Command {
 	public static final String COMMAND_IS_DONE = "done";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("add news ");
-		//int idNews = Integer.parseInt(request.getParameter(NewsParameter.JSP_ID_NEWS));
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
 		String title = request.getParameter(NewsParameter.JSP_TITLE);
 		String briefNews = request.getParameter(NewsParameter.JSP_BRIEF_NEWS);
 		String content = request.getParameter(NewsParameter.JSP_CONTENT);
@@ -56,5 +54,4 @@ public class AddNews implements Command {
 			response.sendRedirect(JspPageName.ERROR_PAGE);
 		}
 	}
-
 }
