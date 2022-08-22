@@ -176,12 +176,11 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 
 	public boolean deleteAllNews(Connection connection, String[] idNews) throws SQLException {
-
+		PreparedStatement ps = connection.prepareStatement(DELETE_NEWS);
 		try {
-			connection.setAutoCommit(false);
-			PreparedStatement ps = connection.prepareStatement(DELETE_NEWS);
+			connection.setAutoCommit(false);			
 			for (int i = 0; i < idNews.length; i++) {
-				ps.setInt(1, Integer.parseInt(idNews[i]));
+				ps.setInt(1, Integer.parseInt(idNews[i]));				
 				ps.executeUpdate();
 			}
 			connection.commit();
@@ -189,10 +188,11 @@ public class NewsDAOImpl implements NewsDAO {
 
 		} catch (SQLException e) {
 			connection.rollback();
+		}finally {
+			ps.close();
 		}
-		return true;
+		return true;		
 	}
-
 	private Timestamp convertDateToDBFormat(String dateStr, String format) throws NewsDAOException {
 		try {
 			DateFormat formatter = new SimpleDateFormat(format);
