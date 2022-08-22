@@ -29,8 +29,7 @@ public class GoToNewsList implements Command {
 			request.getSession(true).setAttribute(AttributsKey.LOCAL, request.getParameter(AttributsKey.LOCAL));
 			newsList = newsService.list();
 			request.setAttribute(AttributsKey.NEWS, newsList);
-			request.setAttribute(AttributsKey.PRESENTATION, NEWS_LIST);
-			// request.setAttribute("news", null);
+			request.setAttribute(AttributsKey.PRESENTATION, NEWS_LIST);	
 			request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
 			request.setAttribute(AttributsKey.REG_USER, null);
 		} catch (ServiceNewsException e) {
