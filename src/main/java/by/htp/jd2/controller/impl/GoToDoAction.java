@@ -20,8 +20,7 @@ import jakarta.servlet.http.HttpSession;
 public class GoToDoAction implements Command {
 	private final NewsService newsService = ServiceProvider.getInstance().getNewsService();
 	public static final String ADD_NEWS = "add";
-	public static final String EDIT_NEWS = "edit";
-	// public static final String DELETE_NEWS = "delete";
+	public static final String EDIT_NEWS = "edit";	
 	public static final String COMMAND_IS_DONE = "done";
 
 	@Override
@@ -45,12 +44,6 @@ public class GoToDoAction implements Command {
 				response.sendRedirect(JspPageName.ERROR_PAGE);
 			}
 			break;
-		/*
-		 * case (DELETE_NEWS): String[] idNewses =
-		 * request.getParameterValues(NewsParameter.JSP_ID_NEWS);
-		 * System.out.println("id " + idNewses); // addOrDeleteNews(getSession, request,
-		 * response, action); break;
-		 */
 		}
 	}
 
