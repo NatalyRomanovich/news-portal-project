@@ -43,7 +43,5 @@ public class DeleteNews implements Command {
 
 			response.sendRedirect(JspPageName.ERROR_PAGE);
 		}
-
 	}
-
 }
