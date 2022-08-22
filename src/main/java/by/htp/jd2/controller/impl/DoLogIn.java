@@ -53,9 +53,7 @@ public class DoLogIn implements Command {
 				getSession.removeAttribute(AttributsKey.REG_USER);
 				request.setAttribute(AttributsKey.NEWS, latestNews);
 				request.setAttribute(AttributsKey.ERRORS_LOGINATION_NAME, ERROR_LOGINATION_MESSAGE);
-				request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
-				// response.sendRedirect("controller?command=go_to_base_page&AuthenticationError=Wrong
-				// login or password");
+				request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);				
 			}
 		} catch (ServiceException e) {
 			response.sendRedirect(JspPageName.ERROR_PAGE);
