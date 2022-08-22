@@ -37,12 +37,8 @@ public class AddNews implements Command {
 
 		News news = new News(title, briefNews, content, newsData);
 		try {
-			// getSession.setAttribute(AttributsKey.LOCAL, local);
-			if (newsService.save(news)) {
-				// System.out.println(request.getRequestURL());
-				System.out.println(request.getAttribute(AttributsKey.PAGE_URL).toString());
-				// getSession.setAttribute(AttributsKey.USER, ConnectionStatus.ACTIVE);
-				// getSession.setAttribute(AttributsKey.ROLE, role);
+			if (newsService.save(news)) {			
+				System.out.println(request.getAttribute(AttributsKey.PAGE_URL).toString());				
 				getSession.removeAttribute(AttributsKey.REG_USER);
 				getSession.setAttribute(AttributsKey.ADD_NEWS, COMMAND_IS_DONE);
 				response.sendRedirect("controller?command=go_to_news_list&local=" + local);
