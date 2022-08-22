@@ -50,13 +50,9 @@ public class DoRegistration implements Command {
 				request.setAttribute(AttributsKey.ERRORS_REGISTRATION_NAME, ERROR_REGISTRATION_MESSAGE);
 				request.setAttribute(AttributsKey.SHOW_NEWS, DO_NOT_SHOW_NEWS);
 				request.getRequestDispatcher(JspPageName.BASE_PAGE_LAYOUT).forward(request, response);
-				// response.sendRedirect("controller?command=go_to_base_page&registrationError
-				// =Invalid data entered&show_news=not_show");
 			}
 		} catch (ServiceException e) {
 			response.sendRedirect(JspPageName.ERROR_PAGE);
 		}
-
 	}
-
 }
