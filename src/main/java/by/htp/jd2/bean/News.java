@@ -16,15 +16,14 @@ public class News implements Serializable {
 	private String title = "";
 	private String briefNews = "";
 	private String content = "";
-	private String newsDate = "";
-	//private Calendar newsDate;
+	private String newsDate = "";	
 
 	public News() {
 	}
 	public News( String title, String briefNews, String content, String newsDate) {
 				
 		this.title = title;
-		this.briefNews = briefNews;//content.substring (FIRST_SYMB_OF_BRIEF,LAST_SYMB_OF_BRIEF);
+		this.briefNews = briefNews;
 		this.content = content;
 		//this.newsDate = new GregorianCalendar();
 		this.newsDate = newsDate;
@@ -34,7 +33,7 @@ public class News implements Serializable {
 		
 		this.idNews = idNews;
 		this.title = title;
-		this.briefNews = briefNews;//content.substring (FIRST_SYMB_OF_BRIEF,LAST_SYMB_OF_BRIEF);
+		this.briefNews = briefNews;
 		this.content = content;
 		//this.newsDate = new GregorianCalendar();
 		this.newsDate = newsDate;
@@ -81,14 +80,6 @@ public class News implements Serializable {
 
 	}
 
-	/*public Calendar getNewsDate() {
-		return newsDate;
-	}
-
-	public void setNewsDate(Calendar newsDate) {
-		this.newsDate = newsDate;
-	}*/
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -111,5 +102,4 @@ public class News implements Serializable {
 		return "News{" + "idNews='" + idNews + '\'' + ", title='" + title + '\'' + ", briefNews='" + briefNews + '\''
 				+ ", content='" + content + '\'' + ", newsDate='" + newsDate + '\'' + '}';
 	}
-
 }
