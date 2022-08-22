@@ -27,8 +27,7 @@ public class EditNews implements Command {
 		HttpSession getSession = request.getSession(true);
 		String local = request.getParameter(AttributsKey.LOCAL);
 
-		try {
-			// getSession.setAttribute(AttributsKey.LOCAL, local);
+		try {			
 			int id = Integer.parseInt(request.getParameter(NewsParameter.JSP_ID_NEWS));
 			String title = request.getParameter(NewsParameter.JSP_TITLE);
 			String briefNews = request.getParameter(NewsParameter.JSP_BRIEF_NEWS);
@@ -36,8 +35,7 @@ public class EditNews implements Command {
 			String newsDate = request.getParameter(NewsParameter.JSP_DATE);
 			News news = new News(id, title, briefNews, content, newsDate);
 
-			if (newsService.update(news)) {
-				// getSession.setAttribute(AttributsKey.USER, ConnectionStatus.ACTIVE);
+			if (newsService.update(news)) {				
 				getSession.setAttribute(AttributsKey.ROLE, UsersRole.ADMIN.getTitle());
 				getSession.removeAttribute(AttributsKey.REG_USER);
 				getSession.setAttribute(AttributsKey.EDIT_NEWS, COMMAND_IS_DONE);
@@ -49,7 +47,5 @@ public class EditNews implements Command {
 
 			response.sendRedirect(JspPageName.ERROR_PAGE);
 		}
-
 	}
-
 }
