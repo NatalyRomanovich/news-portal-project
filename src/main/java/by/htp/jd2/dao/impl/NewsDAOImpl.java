@@ -24,8 +24,7 @@ import by.htp.jd2.dao.connectionpool.ConnectionPool;
 import by.htp.jd2.dao.connectionpool.ConnectionPoolException;
 
 public class NewsDAOImpl implements NewsDAO {
-
-	// private static final int NEWS_NUMBER_ON_PAGE = 7;
+	
 	private static final int ADMIN_ROLE_ID = 1;
 
 	private static final String SHOW_LATEST_NEWS_FOR_GUEST = "SELECT * FROM news ORDER BY date DESC LIMIT ?";
