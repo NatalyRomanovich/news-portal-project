@@ -62,6 +62,7 @@
 
 
 	<c:if test="${sessionScope.role eq 'admin'}">
+	    <c:if test="${not(requestScope.news eq null)}">
 		<div align="right">
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="go_to_do_action" /> <input
@@ -79,6 +80,7 @@
 					type="hidden" name="idNews" value="${news.idNews}" /> <input
 					type="submit" value="${delete}" />
 			</form><br />
+	     </c:if>
 
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="go_to_news_list" /> <input
@@ -90,7 +92,7 @@
 		</div>
 
 		<div align="left">
-
+                   <c:if test="${not(requestScope.news eq null)}">
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="completely_delete_news" />
 				<input type="hidden" name="local" value="${local}" /> <input
@@ -98,6 +100,7 @@
 					type="hidden" name="idNews" value="${news.idNews}" /> <font
 					color="red"> <input type="submit" value="${delCompl}" /></font>
 			</form>
+		    </c:if>
 		</div>
 	</c:if>
 </div>
