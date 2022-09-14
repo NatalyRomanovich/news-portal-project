@@ -70,7 +70,7 @@
 					type="hidden" name="pageNum" value="${pageNum}" /> <input
 					type="hidden" name="commandsName" value="edit" /> <input
 					type="submit" value="${editNews}" />
-			</form>
+			</form><br />
 
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="delete_news" /> <input
@@ -78,7 +78,7 @@
 					type="hidden" name="pageNum" value="${pageNum}" /> <input
 					type="hidden" name="idNews" value="${news.idNews}" /> <input
 					type="submit" value="${delete}" />
-			</form>
+			</form><br />
 
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="go_to_news_list" /> <input
